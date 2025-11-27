@@ -1,0 +1,82 @@
+@prefix : <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@base <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/> .
+
+<http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8> rdf:type owl:Ontology .
+
+#################################################################
+# Classes
+#################################################################
+
+:TestCase rdf:type owl:Class .
+:Execution rdf:type owl:Class .
+:Step rdf:type owl:Class .
+:Assertion rdf:type owl:Class .
+
+# auxiliary marker classes used in the rule (could be derived automatically with built-ins)
+:AllStepsExecuted rdf:type owl:Class .
+:NoFailedAssertions rdf:type owl:Class .
+
+:SuccessfulTest rdf:type owl:Class .
+
+#################################################################
+# Object properties
+#################################################################
+
+:has_execution rdf:type owl:ObjectProperty ;
+               rdfs:domain :TestCase ;
+               rdfs:range :Execution .
+
+:has_step rdf:type owl:ObjectProperty ;
+          rdfs:domain :TestCase ;
+          rdfs:range :Step .
+
+:has_assertion rdf:type owl:ObjectProperty ;
+               rdfs:domain :Execution ;
+               rdfs:range :Assertion .
+
+#################################################################
+# Data properties (доп. сведения; не обязательны для текущего правила)
+#################################################################
+
+:total_steps rdf:type owl:DatatypeProperty ;
+             rdfs:domain :TestCase ;
+             rdfs:range xsd:integer .
+
+:executed_steps_count rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Execution ;
+                      rdfs:range xsd:integer .
+
+:failed_assertions_count rdf:type owl:DatatypeProperty ;
+                         rdfs:domain :Execution ;
+                         rdfs:range xsd:integer .
+
+#################################################################
+# Example individuals (минимальный пример)
+#################################################################
+
+:tc1 rdf:type :TestCase ;
+     :total_steps "4"^^xsd:integer ;
+     :has_execution :exec1 ;
+     :has_step :step1 , :step2 , :step3 , :step4 .
+
+:exec1 rdf:type :Execution , :AllStepsExecuted , :NoFailedAssertions ;
+       :executed_steps_count "4"^^xsd:integer ;
+       :failed_assertions_count "0"^^xsd:integer .
+
+:step1 rdf:type :Step .
+:step2 rdf:type :Step .
+:step3 rdf:type :Step .
+:step4 rdf:type :Step .
+
+# Пример неуспешного теста
+:tc2 rdf:type :TestCase ;
+     :total_steps "3"^^xsd:integer ;
+     :has_execution :exec2 .
+
+:exec2 rdf:type :Execution ;
+       :executed_steps_count "2"^^xsd:integer ;
+       :failed_assertions_count "1"^^xsd:integer .

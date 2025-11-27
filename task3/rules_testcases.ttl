@@ -1,0 +1,64 @@
+@prefix : <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#> .
+@base <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/> .
+
+#################################################################
+# SWRL variables
+#################################################################
+
+<http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/TC> rdf:type swrl:Variable .
+<http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/E> rdf:type swrl:Variable .
+
+#################################################################
+# Rule S1:
+# if TestCase(TC) ^ has_execution(TC,E) ^ AllStepsExecuted(E) ^ NoFailedAssertions(E)
+# then SuccessfulTest(TC)
+#################################################################
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+  rdfs:label "S1: successful test detection" ;
+  rdf:type swrl:Imp ;
+  swrl:body [
+    rdf:type swrl:AtomList ;
+    rdf:first [ rdf:type swrl:ClassAtom ;
+                swrl:classPredicate :TestCase ;
+                swrl:argument1 <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/TC>
+              ] ;
+    rdf:rest [
+      rdf:type swrl:AtomList ;
+      rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                  swrl:propertyPredicate :has_execution ;
+                  swrl:argument1 <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/TC> ;
+                  swrl:argument2 <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/E>
+                ] ;
+      rdf:rest [
+        rdf:type swrl:AtomList ;
+        rdf:first [ rdf:type swrl:ClassAtom ;
+                    swrl:classPredicate :AllStepsExecuted ;
+                    swrl:argument1 <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/E>
+                  ] ;
+        rdf:rest [
+          rdf:type swrl:AtomList ;
+          rdf:first [ rdf:type swrl:ClassAtom ;
+                      swrl:classPredicate :NoFailedAssertions ;
+                      swrl:argument1 <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/E>
+                    ] ;
+          rdf:rest rdf:nil
+        ]
+      ]
+    ]
+  ] ;
+  swrl:head [
+    rdf:type swrl:AtomList ;
+    rdf:first [ rdf:type swrl:ClassAtom ;
+                swrl:classPredicate :SuccessfulTest ;
+                swrl:argument1 <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/TC>
+              ] ;
+    rdf:rest rdf:nil
+  ]
+] .
