@@ -1,82 +1,148 @@
 @prefix : <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
 @base <http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/> .
 
-<http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8> rdf:type owl:Ontology .
+<http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8> rdf:type owl:Ontology ;
+                                                                          owl:imports <file:/C:/Users/maxlu/СМРИЗ/task3/rules_testcases.ttl> .
 
 #################################################################
-# Classes
+#    Object Properties
 #################################################################
 
-:TestCase rdf:type owl:Class .
-:Execution rdf:type owl:Class .
-:Step rdf:type owl:Class .
-:Assertion rdf:type owl:Class .
-
-# auxiliary marker classes used in the rule (could be derived automatically with built-ins)
-:AllStepsExecuted rdf:type owl:Class .
-:NoFailedAssertions rdf:type owl:Class .
-
-:SuccessfulTest rdf:type owl:Class .
-
-#################################################################
-# Object properties
-#################################################################
-
-:has_execution rdf:type owl:ObjectProperty ;
-               rdfs:domain :TestCase ;
-               rdfs:range :Execution .
-
-:has_step rdf:type owl:ObjectProperty ;
-          rdfs:domain :TestCase ;
-          rdfs:range :Step .
-
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/has_assertion
 :has_assertion rdf:type owl:ObjectProperty ;
                rdfs:domain :Execution ;
                rdfs:range :Assertion .
 
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/has_execution
+:has_execution rdf:type owl:ObjectProperty ;
+               rdfs:domain :TestCase ;
+               rdfs:range :Execution .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/has_step
+:has_step rdf:type owl:ObjectProperty ;
+          rdfs:domain :TestCase ;
+          rdfs:range :Step .
+
+
 #################################################################
-# Data properties (доп. сведения; не обязательны для текущего правила)
+#    Data properties
 #################################################################
 
-:total_steps rdf:type owl:DatatypeProperty ;
-             rdfs:domain :TestCase ;
-             rdfs:range xsd:integer .
-
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/executed_steps_count
 :executed_steps_count rdf:type owl:DatatypeProperty ;
                       rdfs:domain :Execution ;
                       rdfs:range xsd:integer .
 
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/failed_assertions_count
 :failed_assertions_count rdf:type owl:DatatypeProperty ;
                          rdfs:domain :Execution ;
                          rdfs:range xsd:integer .
 
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/total_steps
+:total_steps rdf:type owl:DatatypeProperty ;
+             rdfs:domain :TestCase ;
+             rdfs:range xsd:integer .
+
+
 #################################################################
-# Example individuals (минимальный пример)
+#    Classes
 #################################################################
 
-:tc1 rdf:type :TestCase ;
-     :total_steps "4"^^xsd:integer ;
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/AllStepsExecuted
+:AllStepsExecuted rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/Assertion
+:Assertion rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/Execution
+:Execution rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/NoFailedAssertions
+:NoFailedAssertions rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/Step
+:Step rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/SuccessfulTest
+:SuccessfulTest rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/TestCase
+:TestCase rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/exec1
+:exec1 rdf:type owl:NamedIndividual ,
+                :AllStepsExecuted ,
+                :Execution ,
+                :NoFailedAssertions ;
+       :executed_steps_count 4 ;
+       :failed_assertions_count 0 .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/exec2
+:exec2 rdf:type owl:NamedIndividual ,
+                :Execution ;
+       :executed_steps_count 2 ;
+       :failed_assertions_count 1 .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/step1
+:step1 rdf:type owl:NamedIndividual ,
+                :Step .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/step2
+:step2 rdf:type owl:NamedIndividual ,
+                :Step .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/step3
+:step3 rdf:type owl:NamedIndividual ,
+                :Step .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/step4
+:step4 rdf:type owl:NamedIndividual ,
+                :Step .
+
+
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/tc1
+:tc1 rdf:type owl:NamedIndividual ,
+              :TestCase ;
      :has_execution :exec1 ;
-     :has_step :step1 , :step2 , :step3 , :step4 .
+     :has_step :step1 ,
+               :step2 ,
+               :step3 ,
+               :step4 ;
+     :total_steps 4 .
 
-:exec1 rdf:type :Execution , :AllStepsExecuted , :NoFailedAssertions ;
-       :executed_steps_count "4"^^xsd:integer ;
-       :failed_assertions_count "0"^^xsd:integer .
 
-:step1 rdf:type :Step .
-:step2 rdf:type :Step .
-:step3 rdf:type :Step .
-:step4 rdf:type :Step .
+###  http://www.semanticweb.org/maxlu/ontologies/2025/9/untitled-ontology-8/tc2
+:tc2 rdf:type owl:NamedIndividual ,
+              :TestCase ;
+     :has_execution :exec2 ;
+     :total_steps 3 .
 
-# Пример неуспешного теста
-:tc2 rdf:type :TestCase ;
-     :total_steps "3"^^xsd:integer ;
-     :has_execution :exec2 .
 
-:exec2 rdf:type :Execution ;
-       :executed_steps_count "2"^^xsd:integer ;
-       :failed_assertions_count "1"^^xsd:integer .
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
